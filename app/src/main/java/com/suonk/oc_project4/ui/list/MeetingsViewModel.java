@@ -9,6 +9,7 @@ import com.suonk.oc_project4.data.meetings.Meeting;
 import com.suonk.oc_project4.data.meetings.MeetingRepository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MeetingsViewModel extends ViewModel {
@@ -32,6 +33,7 @@ public class MeetingsViewModel extends ViewModel {
                                 meeting.getTime(),
                                 meeting.getPlace(),
                                 meeting.getListOfMails().toString()
+//                                listOfMailsToString(meeting.getListOfMails())
                         )
                 );
             }
@@ -39,6 +41,14 @@ public class MeetingsViewModel extends ViewModel {
             return meetingsViewState;
         });
     }
+
+//    public String listOfMailsToString(List<String> strings) {
+//        for (Iterator<String> iterator = strings.iterator(); iterator.hasNext(); ) {
+//            String String = iterator.next();
+//        }
+//        meeting.getListOfMails().toString()
+//        repository.deleteMeeting(id);
+//    }
 
     public void onMeetingDelete(long id) {
         repository.deleteMeeting(id);
