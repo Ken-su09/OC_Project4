@@ -3,12 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/drawable/ic_check.xml" value="0.2125" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/drawable/ic_delete.xml" value="0.18" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/drawable/ic_filter.xml" value="0.2125" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/fragment_create_meeting.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/fragment_meeting_details.xml" value="0.1875" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/fragment_meetings_list.xml" value="0.25" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/item_meeting.xml" value="0.33" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/test.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/menu/create_meeting_toolbar_menu.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/menu/list_meetings_toolbar_menu.xml" value="0.2625" />
       </map>
     </option>
   </component>

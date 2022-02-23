@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">OC_Project4</string>
+    <string name="a11y_add_meeting">Add new meeting</string>
+
+    <string name="toolbar_filter">Filter</string>
+    <string name="toolbar_validate">Validate</string>
+
+    <string-array name="places_array">
+        <item>Peach</item>
+        <item>Mario</item>
+        <item>Luigi</item>
+        <item>Bowser</item>
+        <item>Toad</item>
+        <item>Yoshi</item>
+        <item>Daisy</item>
+        <item>Donkey Kong</item>
+    </string-array>
 </resources>
