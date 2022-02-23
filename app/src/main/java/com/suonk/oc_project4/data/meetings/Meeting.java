@@ -127,4 +127,16 @@ public class Meeting {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "Meeting{" +
+                "id=" + id +
+                ", subject='" + subject + '\'' +
+                ", time='" + time + '\'' +
+                ", place='" + place + '\'' +
+                ", duration='" + duration + '\'' +
+                ", listOfMails=" + listOfMails +
+                '}';
+    }
 }
