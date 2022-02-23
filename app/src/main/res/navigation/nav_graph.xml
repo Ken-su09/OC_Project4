@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/meetingsListFragment">
+
+    <fragment
+        android:id="@+id/meetingsListFragment"
+        android:name="com.suonk.oc_project4.ui.list.MeetingsListFragment"
+        android:label="fragment_meetings_list"
+        tools:layout="@layout/fragment_meetings_list">
+        <action
+            android:id="@+id/action_meetingsListFragment_to_createMeetingFragment"
+            app:destination="@id/createMeetingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_meetingsListFragment_to_meetingDetailsFragment"
+            app:destination="@id/meetingDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/meetingDetailsFragment"
+        android:name="com.suonk.oc_project4.ui.details.MeetingDetailsFragment"
+        android:label="fragment_meeting_details"
+        tools:layout="@layout/fragment_meeting_details" />
+    <fragment
+        android:id="@+id/createMeetingFragment"
+        android:name="com.suonk.oc_project4.ui.create.CreateMeetingFragment"
+        android:label="fragment_create_meeting"
+        tools:layout="@layout/fragment_create_meeting" />
+</navigation>
