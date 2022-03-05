@@ -1,5 +1,6 @@
 package com.suonk.oc_project4.data.meetings;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.suonk.oc_project4.data.meetings.Meeting;
@@ -18,7 +19,10 @@ public interface DefaultMeetingRepository {
     /**
      * Add a new meeting
      */
-    void addNewMeeting(Meeting meeting);
+    void addNewMeeting(@NonNull String subject,
+                       @NonNull String place,
+                       @NonNull String time,
+                       @NonNull String listOfMails);
 
     /**
      * Delete a meeting

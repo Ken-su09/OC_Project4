@@ -1,6 +1,7 @@
 package com.suonk.oc_project4.ui.details;
 
 import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 public class MeetingDetailsViewState {
@@ -15,19 +16,19 @@ public class MeetingDetailsViewState {
      * Time
      */
     @NonNull
-    private String time;
+    private final String startTime;
+
+    /**
+     * Time
+     */
+    @NonNull
+    private final String endTime;
 
     /**
      * Place
      */
     @NonNull
     private String place;
-
-    /**
-     * Duration
-     */
-    @NonNull
-    private String duration;
 
     /**
      * List of attendees
@@ -42,15 +43,15 @@ public class MeetingDetailsViewState {
      * @param time
      */
     public MeetingDetailsViewState(
-                   @NonNull String subject,
-                   @NonNull String time,
-                   @NonNull String place,
-                   @NonNull String duration,
-                   @NonNull String listOfMails) {
+            @NonNull String subject,
+            @NonNull String startTime,
+            @NonNull String endTime,
+            @NonNull String place,
+            @NonNull String listOfMails) {
         this.subject = subject;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.place = place;
-        this.duration = duration;
         this.listOfMails = listOfMails;
     }
 
@@ -64,12 +65,13 @@ public class MeetingDetailsViewState {
     }
 
     @NonNull
-    public String getTime() {
-        return time;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setTime(@NonNull String time) {
-        this.time = time;
+    @NonNull
+    public String getEndTime() {
+        return endTime;
     }
 
     @NonNull
@@ -77,26 +79,9 @@ public class MeetingDetailsViewState {
         return place;
     }
 
-    public void setPlace(@NonNull String place) {
-        this.place = place;
-    }
-
-    @NonNull
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(@NonNull String duration) {
-        this.duration = duration;
-    }
-
     @NonNull
     public String getListOfMails() {
         return listOfMails;
-    }
-
-    public void setListOfMails(@NonNull String listOfMails) {
-        this.listOfMails = listOfMails;
     }
 
     @Override
@@ -105,5 +90,16 @@ public class MeetingDetailsViewState {
         if (o == null || getClass() != o.getClass()) return false;
         MeetingDetailsViewState meeting = (MeetingDetailsViewState) o;
         return Objects.equals(subject, meeting.subject);
+    }
+
+    @Override
+    public String toString() {
+        return "MeetingDetailsViewState{" +
+                "subject='" + subject + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", place='" + place + '\'' +
+                ", listOfMails='" + listOfMails + '\'' +
+                '}';
     }
 }

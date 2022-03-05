@@ -22,28 +22,22 @@ public class Meeting {
     private String subject;
 
     /**
-     * Time
-     */
-    @NonNull
-    private String time;
-
-    /**
      * Place
      */
     @NonNull
     private String place;
 
     /**
-     * Duration
+     * Time
      */
     @NonNull
-    private String duration;
+    private String time;
 
     /**
      * List of attendees
      */
     @NonNull
-    private List<String> listOfMails;
+    private final String listOfMails;
 
     /**
      * Constructor
@@ -54,15 +48,13 @@ public class Meeting {
      */
     public Meeting(long id,
                    @NonNull String subject,
-                   @NonNull String time,
                    @NonNull String place,
-                   @NonNull String duration,
-                   @NonNull List<String> listOfMails) {
+                   @NonNull String time,
+                   @NonNull String listOfMails) {
         this.id = id;
         this.subject = subject;
-        this.time = time;
         this.place = place;
-        this.duration = duration;
+        this.time = time;
         this.listOfMails = listOfMails;
     }
 
@@ -93,26 +85,9 @@ public class Meeting {
         return place;
     }
 
-    public void setPlace(@NonNull String place) {
-        this.place = place;
-    }
-
     @NonNull
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(@NonNull String duration) {
-        this.duration = duration;
-    }
-
-    @NonNull
-    public List<String> getListOfMails() {
+    public String getListOfMails() {
         return listOfMails;
-    }
-
-    public void setListOfMails(@NonNull List<String> listOfMails) {
-        this.listOfMails = listOfMails;
     }
 
     @Override
@@ -120,12 +95,12 @@ public class Meeting {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Meeting meeting = (Meeting) o;
-        return Objects.equals(id, meeting.id);
+        return id == meeting.id && subject.equals(meeting.subject) && place.equals(meeting.place) && time.equals(meeting.time) && listOfMails.equals(meeting.listOfMails);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, subject, place, time, listOfMails);
     }
 
     @Override
@@ -135,7 +110,6 @@ public class Meeting {
                 ", subject='" + subject + '\'' +
                 ", time='" + time + '\'' +
                 ", place='" + place + '\'' +
-                ", duration='" + duration + '\'' +
                 ", listOfMails=" + listOfMails +
                 '}';
     }
