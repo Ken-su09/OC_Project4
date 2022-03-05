@@ -29,7 +29,11 @@
         android:id="@+id/meetingDetailsFragment"
         android:name="com.suonk.oc_project4.ui.details.MeetingDetailsFragment"
         android:label="fragment_meeting_details"
-        tools:layout="@layout/fragment_meeting_details" />
+        tools:layout="@layout/fragment_meeting_details">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/createMeetingFragment"
         android:name="com.suonk.oc_project4.ui.create.CreateMeetingFragment"
