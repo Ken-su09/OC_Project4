@@ -44,8 +44,8 @@ public class MeetingsListAdapter extends ListAdapter<MeetingsViewState, Meetings
 
         public void onBind(MeetingsViewState meeting) {
             // Put on the ViewModel
-            binding.meetingSubject.setText(meeting.getSubject() + " " + meeting.getTime() + " " + meeting.getPlace());
-            binding.meetingListOfMails.setText(meeting.getListOfMails().toString());
+            binding.meetingSubject.setText(meeting.getSubject() + " - " + meeting.getTime() + " - " + meeting.getPlace());
+            binding.meetingListOfMails.setText(meeting.getListOfMails());
 
             binding.getRoot().setOnClickListener(view -> {
                 callBack.onMeetingClick(view, meeting.getId());

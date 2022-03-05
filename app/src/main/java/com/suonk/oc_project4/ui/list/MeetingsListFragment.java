@@ -7,6 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.suonk.oc_project4.R;
 import com.suonk.oc_project4.databinding.FragmentMeetingsListBinding;
 import com.suonk.oc_project4.ui.OnMeetingEventListener;
@@ -57,11 +61,11 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     }
 
     private void setupActionBar() {
-        ((AppCompatActivity)requireActivity()).setSupportActionBar(binding.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(binding.toolbar);
         binding.toolbar.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.bluePrimary));
         binding.toolbar.setTitleTextColor(AppCompatResources.getColorStateList(requireActivity(), R.color.white));
-        if (((AppCompatActivity)requireActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity)requireActivity()).getSupportActionBar().setTitle("Ma réu");
+        if (((AppCompatActivity) requireActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) requireActivity()).getSupportActionBar().setTitle("Ma réu");
         }
     }
 
@@ -72,6 +76,7 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
 
         viewModel.getAllMeetings().observe(getViewLifecycleOwner(), meetings -> listAdapter.submitList(meetings));
         binding.meetingsRv.setAdapter(listAdapter);
+        binding.meetingsRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.meetingsRv.setHasFixedSize(true);
     }
 
@@ -87,7 +92,7 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
 
     @Override
     public void onMeetingClick(View view, long id) {
-        navigationToAnotherFragment(view, MeetingsListFragmentDirections.actionMeetingsListFragmentToMeetingDetailsFragment());
+        navigationToAnotherFragment(view, (NavDirections) MeetingsListFragmentDirections.actionMeetingsListFragmentToMeetingDetailsFragment(id));
     }
 
     @Override
@@ -103,6 +108,9 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.filter) {
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

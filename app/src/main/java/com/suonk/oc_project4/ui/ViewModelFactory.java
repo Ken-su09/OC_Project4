@@ -11,6 +11,8 @@ import com.suonk.oc_project4.ui.list.MeetingsViewModel;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
+    private static ViewModelFactory factory;
+
     @NonNull
     private final MeetingRepository repository;
 
@@ -31,6 +33,12 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     }
 
     public static ViewModelFactory getInstance() {
-        return new ViewModelFactory(new MeetingRepository());
+        if (factory == null) {
+            synchronized (ViewModelFactory.class) {
+                factory = new ViewModelFactory(new MeetingRepository());
+            }
+        }
+
+        return factory;
     }
 }

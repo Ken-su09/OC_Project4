@@ -17,25 +17,25 @@ public class MeetingsViewState {
      * Subject
      */
     @NonNull
-    private String subject;
+    private final String subject;
 
     /**
      * Time
      */
     @NonNull
-    private String time;
+    private final String time;
 
     /**
      * Place
      */
     @NonNull
-    private String place;
+    private final String place;
 
     /**
      * List of attendees
      */
     @NonNull
-    private String listOfMails;
+    private final String listOfMails;
 
     /**
      * Constructor
@@ -74,22 +74,23 @@ public class MeetingsViewState {
 
     @NonNull
     public String getListOfMails() {
-        return listOfMails.toString();
+        return listOfMails;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MeetingsViewState meetingsViewState = (MeetingsViewState) o;
-        return Objects.equals(id, meetingsViewState.id);
+        MeetingsViewState that = (MeetingsViewState) o;
+        return id == that.id && subject.equals(that.subject) && time.equals(that.time) && place.equals(that.place) && listOfMails.equals(that.listOfMails);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, subject, time, place, listOfMails);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "MeetingsViewState{" +
