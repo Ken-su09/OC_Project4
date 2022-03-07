@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
@@ -23,37 +25,94 @@ public class MeetingsViewModel extends ViewModel {
     private final MeetingRepository repository;
     private final MediatorLiveData<List<MeetingsViewState>> viewStateLiveData = new MediatorLiveData<>();
 
-    private final MutableLiveData<Integer> idLiveData = new MutableLiveData<>(0);
-    private final MutableLiveData<Boolean> isFilterLiveData = new MutableLiveData<>(false);
+    private final MutableLiveData<Integer> sortingModeLiveData = new MutableLiveData<>();
 
     @SuppressLint("NonConstantResourceId")
     public MeetingsViewModel(@NonNull MeetingRepository repository) {
         this.repository = repository;
-        viewStateLiveData.addSource(repository.getAllMeetings(), meetings -> {
-            List<MeetingsViewState> meetingsViewState = new ArrayList<>();
 
-            for (Meeting meeting : meetings) {
-                meetingsViewState.add(
-                        new MeetingsViewState(
-                                meeting.getId(),
-                                meeting.getSubject(),
-                                meeting.getTime(),
-                                meeting.getPlace(),
-                                meeting.getListOfMails()
-                        )
-                );
-            }
+        LiveData<List<Meeting>> meetingsLiveData = repository.getAllMeetings();
 
-            viewStateLiveData.setValue(meetingsViewState);
+        viewStateLiveData.addSource(meetingsLiveData, meetings -> {
+            combine(meetings, sortingModeLiveData.getValue());
         });
+
+        viewStateLiveData.addSource(sortingModeLiveData, sortingMode -> {
+            combine(meetingsLiveData.getValue(), sortingMode);
+        });
+
+    }
+
+    private void combine(@Nullable List<Meeting> meetings, @Nullable Integer sortingMode) {
+        if (meetings == null) {
+            return;
+        }
+
+        List<MeetingsViewState> meetingsViewStates = new ArrayList<>();
+
+        for (Meeting meeting : meetings) {
+            meetingsViewStates.add(
+                new MeetingsViewState(
+                    meeting.getId(),
+                    meeting.getSubject(),
+                    meeting.getTime(),
+                    meeting.getPlace(),
+                    meeting.getListOfMails()
+                )
+            );
+        }
+
+        List<MeetingsViewState> meetingsFiltered = new ArrayList<>();
+
+        if (sortingMode != null) {
+            for (MeetingsViewState meetingViewState : meetingsViewStates) {
+                int meetingTime = convertTimeStringToInt(convertTimeToStartTime(meetingViewState.getTime()));
+                Log.i("meetingTime", "" + meetingTime);
+                switch (sortingMode) {
+                    case 8:
+                        if (meetingTime < 8) {
+                            Log.i("meetingTime", "add");
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                    case 10:
+                        if (8 <= meetingTime && meetingTime < 10) {
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                    case 12:
+                        if (10 <= meetingTime && meetingTime < 12) {
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                    case 14:
+                        if (12 <= meetingTime && meetingTime < 14) {
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                    case 16:
+                        if (14 <= meetingTime && meetingTime < 16) {
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                    case 18:
+                        if (16 <= meetingTime && meetingTime < 18) {
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                    case 20:
+                        if (18 <= meetingTime && meetingTime < 20) {
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                    case 22:
+                        if (20 <= meetingTime && meetingTime < 22) {
+                            meetingsFiltered.add(meetingViewState);
+                        }
+                }
+            }
+        } else {
+            meetingsFiltered.addAll(meetingsViewStates);
+        }
+
+        viewStateLiveData.setValue(meetingsFiltered);
     }
 
     public LiveData<List<MeetingsViewState>> getAllMeetings() {
         return viewStateLiveData;
-    }
-
-    public void setIdLiveData(int id) {
-        idLiveData.setValue(id);
     }
 
     private List<MeetingsViewState> filterMeetingsWithPlace(List<MeetingsViewState> meetings, String filterName) {
@@ -67,53 +126,7 @@ public class MeetingsViewModel extends ViewModel {
         return meetingsFilter;
     }
 
-    private List<MeetingsViewState> filterMeetingsWithDate(List<MeetingsViewState> meetings, int filterValue) {
-        List<MeetingsViewState> meetingsFilter = new ArrayList<>();
-        for (MeetingsViewState meeting : meetings) {
-            int meetingTime = convertTimeStringToInt(convertTimeToStartTime(meeting.getTime()));
-            Log.i("meetingTime", "" + meetingTime);
-            switch (filterValue) {
-                case 8:
-                    if (meetingTime < 8) {
-                        Log.i("meetingTime", "add");
-                        meetingsFilter.add(meeting);
-                    }
-                case 10:
-                    if (8 <= meetingTime && meetingTime < 10) {
-                        meetingsFilter.add(meeting);
-                    }
-                case 12:
-                    if (10 <= meetingTime && meetingTime < 12) {
-                        meetingsFilter.add(meeting);
-                    }
-                case 14:
-                    if (12 <= meetingTime && meetingTime < 14) {
-                        meetingsFilter.add(meeting);
-                    }
-                case 16:
-                    if (14 <= meetingTime && meetingTime < 16) {
-                        meetingsFilter.add(meeting);
-                    }
-                case 18:
-                    if (16 <= meetingTime && meetingTime < 18) {
-                        meetingsFilter.add(meeting);
-                    }
-                case 20:
-                    if (18 <= meetingTime && meetingTime < 20) {
-                        meetingsFilter.add(meeting);
-                    }
-                case 22:
-                    if (20 <= meetingTime && meetingTime < 22) {
-                        meetingsFilter.add(meeting);
-                    }
-                default:
-            }
-        }
-
-        return meetingsFilter;
-    }
-
-    public List<MeetingsViewState> returnFilterMeetings(List<MeetingsViewState> meetings) {
+    private List<MeetingsViewState> returnFilterMeetings(List<MeetingsViewState> meetings) {
         if (meetings != null) {
             isFilterLiveData.setValue(true);
             switch (idLiveData.getValue()) {
