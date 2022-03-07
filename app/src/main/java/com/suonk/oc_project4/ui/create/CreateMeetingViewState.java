@@ -7,11 +7,6 @@ import java.util.Objects;
 public class CreateMeetingViewState {
 
     /**
-     * Identifier
-     */
-    private final long id;
-
-    /**
      * Subject
      */
     @NonNull
@@ -45,22 +40,16 @@ public class CreateMeetingViewState {
      * Constructor
      */
     public CreateMeetingViewState(
-            long id,
             @NonNull String subject,
             @NonNull String startTime,
             @NonNull String endTime,
             @NonNull String place,
             @NonNull String listOfMails) {
-        this.id = id;
         this.subject = subject;
         this.startTime = startTime;
         this.endTime = endTime;
         this.place = place;
         this.listOfMails = listOfMails;
-    }
-
-    public long getId() {
-        return id;
     }
 
     @NonNull
@@ -92,21 +81,19 @@ public class CreateMeetingViewState {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreateMeetingViewState createMeetingViewState = (CreateMeetingViewState) o;
-        return Objects.equals(id, createMeetingViewState.id);
+        CreateMeetingViewState that = (CreateMeetingViewState) o;
+        return subject.equals(that.subject) && startTime.equals(that.startTime) && endTime.equals(that.endTime) && place.equals(that.place) && listOfMails.equals(that.listOfMails);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(subject, startTime, endTime, place, listOfMails);
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "CreateMeetingViewState{" +
-                "id=" + id +
-                ", subject='" + subject + '\'' +
+                "subject='" + subject + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 ", place='" + place + '\'' +

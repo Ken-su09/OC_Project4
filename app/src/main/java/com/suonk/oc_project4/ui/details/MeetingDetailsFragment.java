@@ -23,6 +23,7 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.chip.Chip;
 import com.suonk.oc_project4.R;
+import com.suonk.oc_project4.data.meetings.Meeting;
 import com.suonk.oc_project4.databinding.FragmentMeetingDetailsBinding;
 import com.suonk.oc_project4.ui.ViewModelFactory;
 
@@ -70,11 +71,13 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
     }
 
     private void getMeetingFromViewModel(long id) {
-        viewModel.getMeetingSelected(id, this).observe(getViewLifecycleOwner(), meetingDetailsViewState -> {
+        viewModel.getMeetingSelected(id);
+        viewModel.getMeetingDetailsLiveData().observe(getViewLifecycleOwner(), meetingDetailsViewState -> {
             binding.subjectEditText.getEditText().setText(meetingDetailsViewState.getSubject());
 //            binding.spinnerPlace.setPrompt();
             binding.startTimeEditText.setText(meetingDetailsViewState.getStartTime());
             binding.endTimeEditText.setText(meetingDetailsViewState.getEndTime());
+            initChip(meetingDetailsViewState);
         });
     }
 
@@ -102,11 +105,14 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
 
     //region ============================================= Chip =============================================
 
-    public void initChip(String email) {
-        LayoutInflater inflater = LayoutInflater.from(requireContext());
-        Chip chip = (Chip) inflater.inflate(R.layout.layout_chip_entry, binding.chipGroup, false);
-        chip.setText(email);
-        binding.chipGroup.addView(chip);
+    public void initChip(MeetingDetailsViewState meeting) {
+        String[] emailArray = meeting.getListOfMails().split(",");
+        for (String email : emailArray) {
+            LayoutInflater inflater = LayoutInflater.from(requireContext());
+            Chip chip = (Chip) inflater.inflate(R.layout.layout_chip_entry, binding.chipGroup, false);
+            chip.setText(email);
+            binding.chipGroup.addView(chip);
+        }
     }
 
     public void addChipFromEmailEditText() {
@@ -124,7 +130,6 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
 
     public void emailEditTextOnEditorAction() {
         binding.listEmailsEditText.getEditText().setOnEditorActionListener((textView, actionId, keyEvent) -> {
-//            viewModel.checkEditActionDone(actionId, this, binding.chipGroup, binding.listEmailsEditText.getEditText().getText().toString());
             return true;
         });
     }

@@ -1,10 +1,13 @@
 package com.suonk.oc_project4.ui.create;
 
+import android.os.Build;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.test.espresso.ViewAction;
 
@@ -18,63 +21,58 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class CreateMeetingViewModel extends ViewModel {
 
     @NonNull
     private final MeetingRepository repository;
 
-    private SingleLiveEvent<ViewAction> singleEventAction = new SingleLiveEvent<>();
+    private final MutableLiveData<CreateMeetingViewState> createMeetingViewState = new MutableLiveData<>();
 
     public CreateMeetingViewModel(@NonNull MeetingRepository repository) {
         this.repository = repository;
+        createMeetingViewState.setValue(new CreateMeetingViewState("", "", "", "", ""));
     }
 
-    public void createMeeting(@NonNull String subject,
-                              @NonNull String place,
-                              @NonNull String time,
+    public void createMeeting(@NonNull String subject, @NonNull String place, @NonNull String time,
                               @NonNull String listOfMails) {
-
+        createMeetingViewState.setValue(new CreateMeetingViewState(subject, convertTimeToStartTime(time),
+                convertTimeToEndTime(time), place, listOfMails));
         repository.addNewMeeting(subject, place, time, listOfMails);
     }
 
-    public String convertChipGroupToListOfString(ChipGroup listOfMails) {
-        List<String> list = new ArrayList<>();
-
-        for (int i = 0; i < listOfMails.getChildCount(); i++) {
-            String chip = ((Chip) listOfMails.getChildAt(i)).getText().toString();
-            list.add(chip);
-        }
-
-        return list.toString();
+    @NonNull
+    public LiveData<CreateMeetingViewState> getCreateMeetingViewState() {
+        return createMeetingViewState;
     }
 
-    public String convertTime(@NonNull String timeFrom,
-                               @NonNull String timeTo) {
-        return timeFrom + " to " + timeTo;
+
+    public String convertStartAndEndTimeToOneString(@NonNull String startTime, @NonNull String endTime) {
+        return startTime + " to " + endTime;
     }
 
-    public Boolean checkIfTimeToSuperiorThanTimeFrom(@NonNull String timeFrom, @NonNull String timeTo) {
+    public Boolean checkIfEndTimeSuperiorThanStartTime(@NonNull String startTime, @NonNull String endTime) {
         int timeFromInt;
         int timeToInt;
-        if (timeFrom.charAt(1) == 'h') {
-            timeFromInt = Integer.parseInt(String.valueOf(timeFrom.charAt(0)));
+        if (startTime.charAt(1) == 'h') {
+            timeFromInt = Integer.parseInt(String.valueOf(startTime.charAt(0)));
         } else {
-            timeFromInt = Integer.parseInt(String.valueOf(timeFrom.charAt(0)) + String.valueOf(timeFrom.charAt(1)));
+            timeFromInt = Integer.parseInt(String.valueOf(startTime.charAt(0)) + String.valueOf(startTime.charAt(1)));
         }
-        if (timeTo.charAt(1) == 'h') {
-            timeToInt = Integer.parseInt(String.valueOf(timeTo.charAt(0)));
+        if (endTime.charAt(1) == 'h') {
+            timeToInt = Integer.parseInt(String.valueOf(endTime.charAt(0)));
         } else {
-            timeToInt = Integer.parseInt(String.valueOf(timeTo.charAt(0)) + String.valueOf(timeTo.charAt(1)));
+            timeToInt = Integer.parseInt(String.valueOf(endTime.charAt(0)) + String.valueOf(endTime.charAt(1)));
         }
 
         return timeFromInt < timeToInt;
     }
 
-    public boolean checkIfFieldsNotEmpty(@NonNull String subject, @NonNull String timeFrom,
-                                         @NonNull String timeTo,
+    public boolean checkIfFieldsNotEmpty(@NonNull String subject, @NonNull String startTime,
+                                         @NonNull String endTime,
                                          @NonNull String place) {
-        return (!subject.isEmpty() && !timeFrom.isEmpty() && !timeTo.isEmpty() && !place.isEmpty());
+        return (!subject.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty() && !place.isEmpty());
     }
 
     public boolean checkIfEmailValid(@NonNull String email) {
@@ -85,6 +83,19 @@ public class CreateMeetingViewModel extends ViewModel {
         matcher = pattern.matcher(email);
 
         return matcher.matches();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public String convertChipGroupToString(@NonNull ChipGroup chipGroup) {
+        List<String> list = new ArrayList<>();
+
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            String chip = ((Chip) chipGroup.getChildAt(i)).getText().toString();
+            list.add(chip);
+        }
+
+        return list.stream().collect(Collectors.joining(", ", "", ""));
     }
 
     public List<String> convertChipGroupToList(@NonNull ChipGroup chipGroup) {
@@ -98,13 +109,15 @@ public class CreateMeetingViewModel extends ViewModel {
         return list;
     }
 
-    public LiveData<ViewAction> getSingleEventActionLiveData() {
-        return singleEventAction;
+    public String convertTimeToStartTime(String time) {
+        String[] parts = time.split(" to");
+
+        return parts[0];
     }
 
-    abstract static class ViewAction {
-        static class PopStack extends ViewAction {
+    public String convertTimeToEndTime(String time) {
+        String[] parts = time.split("to ");
 
-        }
+        return parts[1];
     }
 }

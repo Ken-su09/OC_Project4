@@ -10,16 +10,14 @@ import java.util.List;
 public class MeetingRepository implements DefaultMeetingRepository {
 
     private final MutableLiveData<List<Meeting>> meetingsLiveData = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<Integer> id = new MutableLiveData<>();
+    private final MutableLiveData<Integer> id = new MutableLiveData<>();
 
     public void addNewMeeting(@NonNull String subject,
                               @NonNull String place,
                               @NonNull String time,
                               @NonNull String listOfMails) {
         List<Meeting> meetings = meetingsLiveData.getValue();
-
         setId();
-        assert meetings != null;
         meetings.add(new Meeting(id.getValue(), subject, place, time, listOfMails));
 
         meetingsLiveData.setValue(meetings);

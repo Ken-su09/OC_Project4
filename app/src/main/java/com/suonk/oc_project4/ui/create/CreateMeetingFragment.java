@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.chip.Chip;
@@ -28,7 +27,6 @@ import com.suonk.oc_project4.R;
 import com.suonk.oc_project4.databinding.FragmentCreateMeetingBinding;
 import com.suonk.oc_project4.ui.ViewModelFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CreateMeetingFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -71,13 +69,17 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
     private void onCreateMeetingClick() {
         viewModel.createMeeting(binding.subjectEditText.getEditText().getText().toString(),
                 spinnerText,
-                viewModel.convertTime(binding.startTimeEditText.getText().toString(), binding.endTimeEditText.getText().toString()),
-                viewModel.convertChipGroupToListOfString(binding.chipGroup));
+                viewModel.convertStartAndEndTimeToOneString(binding.startTimeEditText.getText().toString(), binding.endTimeEditText.getText().toString()),
+                viewModel.convertChipGroupToString(binding.chipGroup));
     }
 
     private void setupViewModel() {
         ViewModelFactory factory = ViewModelFactory.getInstance();
         viewModel = new ViewModelProvider(this, factory).get(CreateMeetingViewModel.class);
+
+        viewModel.getCreateMeetingViewState().observe(getViewLifecycleOwner(), createMeetingViewState -> {
+
+        });
     }
 
     //region ============================================ Spinner ===========================================
@@ -188,8 +190,8 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
             String endTime = binding.endTimeEditText.getText().toString();
 
             if (viewModel.checkIfFieldsNotEmpty(subject, spinnerText, startTime, endTime) &&
-                    !viewModel.convertChipGroupToListOfString(binding.chipGroup).isEmpty()) {
-                if (viewModel.checkIfTimeToSuperiorThanTimeFrom(startTime, endTime)) {
+                    !viewModel.convertChipGroupToString(binding.chipGroup).isEmpty()) {
+                if (viewModel.checkIfEndTimeSuperiorThanStartTime(startTime, endTime)) {
                     onCreateMeetingClick();
                     popBackStack();
                 } else {

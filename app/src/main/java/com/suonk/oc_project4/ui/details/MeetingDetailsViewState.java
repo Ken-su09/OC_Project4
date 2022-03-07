@@ -40,7 +40,8 @@ public class MeetingDetailsViewState {
      * Constructor
      *
      * @param subject
-     * @param time
+     * @param startTime
+     * @param endTime
      */
     public MeetingDetailsViewState(
             @NonNull String subject,
