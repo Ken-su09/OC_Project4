@@ -3,22 +3,100 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/filter"
+        android:id="@+id/filter_by_place"
         android:icon="@drawable/ic_filter"
         android:title="@string/toolbar_filter"
         app:showAsAction="ifRoom">
         <menu>
-            <group
-                android:id="@+id/filter_by"
-                android:checkableBehavior="single">
+            <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/filter_by_date"
+                    android:id="@+id/no_filter_place"
                     android:checked="true"
-                    android:title="Filter by date"
+                    android:title="No filter"
                     app:showAsAction="collapseActionView" />
                 <item
-                    android:id="@+id/filter_by_place"
-                    android:title="Filter by place"
+                    android:id="@+id/place_peach"
+                    android:title="Peach"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/place_mario"
+                    android:title="Mario"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/place_luigi"
+                    android:title="Luigi"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/place_bowser"
+                    android:title="Bowser"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/place_toad"
+                    android:title="Toad"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/place_yoshi"
+                    android:title="Yoshi"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/place_daisy"
+                    android:title="Daisy"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/place_donkey_kong"
+                    android:title="Donkey Kong"
+                    app:showAsAction="collapseActionView" />
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/filter_by_date"
+        android:icon="@drawable/ic_back"
+        android:title="@string/toolbar_filter"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/no_filter_date"
+                    android:checked="true"
+                    android:title="No filter"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_under_8"
+                    android:title="x under 8h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_8_under_10"
+                    android:title="x between 8h-10h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_10_under_12"
+                    android:title="x between 10h-12h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_12_under_14"
+                    android:title="x between 12h-14h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_14_under_16"
+                    android:title="x between 14h-16h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_16_under_18"
+                    android:title="x between 16h-18h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_18_under_20"
+                    android:title="x between 18h-20h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_20_under_22"
+                    android:title="x between 20h-22h"
+                    app:showAsAction="collapseActionView" />
+                <item
+                    android:id="@+id/date_over_22_under_00"
+                    android:title="x between 22h-00h"
                     app:showAsAction="collapseActionView" />
             </group>
         </menu>

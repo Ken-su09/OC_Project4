@@ -1,6 +1,10 @@
 package com.suonk.oc_project4.ui.list;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +59,11 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ViewModelFactory factory = ViewModelFactory.getInstance();
+        viewModel = new ViewModelProvider(this, factory).get(MeetingsViewModel.class);
+
+//        sharedPreferences = requireActivity().getSharedPreferences("MenuItemChecked", MODE_PRIVATE);
+
         setupActionBar();
         onFabClickListener();
         getMeetingsListFromViewModel();
@@ -70,11 +79,10 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     }
 
     public void getMeetingsListFromViewModel() {
-        ViewModelFactory factory = ViewModelFactory.getInstance();
-        viewModel = new ViewModelProvider(this, factory).get(MeetingsViewModel.class);
         listAdapter = new MeetingsListAdapter(this);
 
-        viewModel.getAllMeetings().observe(getViewLifecycleOwner(), meetings -> listAdapter.submitList(meetings));
+        viewModel.getAllMeetings().observe(getViewLifecycleOwner(), meetings ->
+                listAdapter.submitList(viewModel.returnFilterMeetings(meetings)));
         binding.meetingsRv.setAdapter(listAdapter);
         binding.meetingsRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.meetingsRv.setHasFixedSize(true);
@@ -104,12 +112,17 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.list_meetings_toolbar_menu, menu);
+
+//        Log.i("MenuItem", "1 : " + sharedPreferences.getInt("MenuItemChecked", 0));
+//        menu.getItem(sharedPreferences.getInt("MenuItemChecked", 0)).setChecked(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.filter) {
-            return true;
+        if (item.getItemId() != R.id.filter_by_place && item.getItemId() != R.id.filter_by_date) {
+            viewModel.setIdLiveData(item.getItemId());
+            item.setChecked(true);
+            getMeetingsListFromViewModel();
         }
         return super.onOptionsItemSelected(item);
     }
