@@ -1,5 +1,6 @@
 package com.suonk.oc_project4.ui.list;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -43,7 +44,6 @@ public class MeetingsListAdapter extends ListAdapter<MeetingsViewState, Meetings
         }
 
         public void onBind(MeetingsViewState meeting) {
-            // Put on the ViewModel
             binding.meetingSubject.setText(meeting.getSubject() + " - " + meeting.getTime() + " - " + meeting.getPlace());
             binding.meetingListOfMails.setText(meeting.getListOfMails());
 
@@ -60,7 +60,11 @@ public class MeetingsListAdapter extends ListAdapter<MeetingsViewState, Meetings
     public static class MeetingsItemCallBack extends DiffUtil.ItemCallback<MeetingsViewState> {
         @Override
         public boolean areItemsTheSame(@NonNull MeetingsViewState oldUser, @NonNull MeetingsViewState newUser) {
-            return oldUser.getId() == newUser.getId();
+            return oldUser.getId() == newUser.getId() ||
+                    oldUser.getPlace().equals(newUser.getPlace()) ||
+                    oldUser.getTime().equals(newUser.getTime()) ||
+                    oldUser.getSubject().equals(newUser.getSubject()) ||
+                    oldUser.getListOfMails().equals(newUser.getListOfMails());
         }
 
         @Override
