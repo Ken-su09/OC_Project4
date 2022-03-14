@@ -1,8 +1,10 @@
 package com.suonk.oc_project4.ui.create;
 
 import android.app.TimePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -23,11 +26,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.suonk.oc_project4.R;
 import com.suonk.oc_project4.databinding.FragmentCreateMeetingBinding;
 import com.suonk.oc_project4.ui.ViewModelFactory;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CreateMeetingFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -70,7 +76,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
         viewModel.createMeeting(binding.subjectEditText.getEditText().getText().toString(),
                 spinnerText,
                 viewModel.convertStartAndEndTimeToOneString(binding.startTimeEditText.getText().toString(), binding.endTimeEditText.getText().toString()),
-                viewModel.convertChipGroupToString(binding.chipGroup));
+                convertChipGroupToString(binding.chipGroup));
     }
 
     private void setupViewModel() {
@@ -123,7 +129,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
         binding.listEmailsEditText.getEditText().setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 if (viewModel.checkIfEmailValid(binding.listEmailsEditText.getEditText().getText().toString())) {
-                    List<String> list = viewModel.convertChipGroupToList(binding.chipGroup);
+                    List<String> list = convertChipGroupToList(binding.chipGroup);
 
                     if (list.contains(binding.listEmailsEditText.getEditText().getText().toString())) {
                         Toast.makeText(getContext(), "The email is already entered", Toast.LENGTH_SHORT).show();
@@ -190,7 +196,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
             String endTime = binding.endTimeEditText.getText().toString();
 
             if (viewModel.checkIfFieldsNotEmpty(subject, spinnerText, startTime, endTime) &&
-                    !viewModel.convertChipGroupToString(binding.chipGroup).isEmpty()) {
+                    !convertChipGroupToString(binding.chipGroup).isEmpty()) {
                 if (viewModel.checkIfEndTimeSuperiorThanStartTime(startTime, endTime)) {
                     onCreateMeetingClick();
                     popBackStack();
@@ -206,6 +212,28 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String convertChipGroupToString(@NonNull ChipGroup chipGroup) {
+        List<String> list = new ArrayList<>();
+
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            String chip = ((Chip) chipGroup.getChildAt(i)).getText().toString();
+            list.add(chip);
+        }
+
+        return TextUtils.join(", ", list);
+    }
+
+    public List<String> convertChipGroupToList(@NonNull ChipGroup chipGroup) {
+        List<String> list = new ArrayList<>();
+
+        for (int i = 0; i < chipGroup.getChildCount(); i++) {
+            String chip = ((Chip) chipGroup.getChildAt(i)).getText().toString();
+            list.add(chip);
+        }
+
+        return list;
     }
 
     //endregion

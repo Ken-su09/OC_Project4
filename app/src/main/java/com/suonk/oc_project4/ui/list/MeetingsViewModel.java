@@ -35,14 +35,10 @@ public class MeetingsViewModel extends ViewModel {
         });
 
         viewStateLiveData.addSource(filterPlaceLiveData, filterPlace -> {
-            Log.i("filterLiveData", "1 : " + filterPlace);
-            Log.i("filterLiveData", "2 : " + filterDateLiveData.getValue());
             combine(meetingsLiveData.getValue(), filterPlace, filterDateLiveData.getValue());
         });
 
         viewStateLiveData.addSource(filterDateLiveData, filterDate -> {
-            Log.i("filterLiveData", "1.5 : " + filterPlaceLiveData.getValue());
-            Log.i("filterLiveData", "2.5 : " + filterDate);
             combine(meetingsLiveData.getValue(), filterPlaceLiveData.getValue(), filterDate);
         });
     }
@@ -53,7 +49,24 @@ public class MeetingsViewModel extends ViewModel {
             return;
         }
 
+        if (filterDate != null) {
+            if (filterDate == R.id.no_filter_date) {
+                filterDateLiveData.setValue(null);
+                filterDate = null;
+            }
+        }
+
+        if (filterPlace != null) {
+            if (filterPlace == R.id.no_filter_place) {
+                filterPlaceLiveData.setValue(null);
+                filterPlace = null;
+            }
+        }
+
         List<MeetingsViewState> meetingsViewStates = new ArrayList<>();
+        List<MeetingsViewState> meetingsFiltered = new ArrayList<>();
+        List<MeetingsViewState> meetingsFilteredByDate = new ArrayList<>();
+        List<MeetingsViewState> meetingsFilteredByPlace = new ArrayList<>();
 
         for (Meeting meeting : meetings) {
             meetingsViewStates.add(
@@ -67,43 +80,32 @@ public class MeetingsViewModel extends ViewModel {
             );
         }
 
-        List<MeetingsViewState> meetingsFiltered = new ArrayList<>();
-        List<MeetingsViewState> meetingsFilteredByDate = new ArrayList<>();
-        List<MeetingsViewState> meetingsFilteredByPlace = new ArrayList<>();
-
+        // x under 8
         if (filterDate != null) {
-            if (getMeetingsFilteredByDate(meetingsViewStates, filterDate).isEmpty()) {
-                if (filterDate == R.id.no_filter_date) {
-                    if (!meetingsFilteredByDate.containsAll(meetingsViewStates)) {
-                        meetingsFilteredByDate.addAll(meetingsViewStates);
-                    }
-                } else {
-                    meetingsFilteredByDate.clear();
+            if (!getMeetingsFilteredByDate(meetingsViewStates, filterDate).isEmpty()) {
+                if (!meetingsFilteredByDate.containsAll(getMeetingsFilteredByDate(meetingsViewStates, filterDate))) {
+                    meetingsFilteredByDate.addAll(getMeetingsFilteredByDate(meetingsViewStates, filterDate));
                 }
-            } else if (!meetingsFilteredByDate.containsAll(getMeetingsFilteredByDate(meetingsViewStates, filterDate))) {
-                meetingsFilteredByDate.addAll(getMeetingsFilteredByDate(meetingsViewStates, filterDate));
             }
+
         }
 
+        // Peach
         if (filterPlace != null) {
-            if (filterMeetingsWithPlace(meetingsViewStates, filterPlace).isEmpty()) {
-                if (filterPlace == R.id.no_filter_place) {
-                    if (!meetingsFilteredByPlace.containsAll(meetingsViewStates)) {
-                        meetingsFilteredByPlace.addAll(meetingsViewStates);
-                    }
-                } else {
-                    meetingsFilteredByPlace.clear();
+            if (!filterMeetingsWithPlace(meetingsViewStates, filterPlace).isEmpty()) {
+                if (!meetingsFilteredByPlace.containsAll(filterMeetingsWithPlace(meetingsViewStates, filterPlace))) {
+                    meetingsFilteredByPlace.addAll(filterMeetingsWithPlace(meetingsViewStates, filterPlace));
                 }
-            } else if (!meetingsFilteredByPlace.containsAll(filterMeetingsWithPlace(meetingsViewStates, filterPlace))) {
-                meetingsFilteredByPlace.addAll(filterMeetingsWithPlace(meetingsViewStates, filterPlace));
-            }
 
-            if (filterDate != null) {
-                if (filterMeetingsWithPlace(meetingsFilteredByDate, filterPlace).isEmpty()) {
-                    meetingsFilteredByPlace.clear();
-                    meetingsFilteredByDate.clear();
-                } else {
-                    meetingsFilteredByPlace.addAll(filterMeetingsWithPlace(meetingsFilteredByDate, filterPlace));
+                // 3 x Peach
+                if (filterDate != null) {
+                    if (filterMeetingsWithPlace(meetingsFilteredByDate, filterPlace).isEmpty()) {
+                        meetingsFilteredByPlace.clear();
+                        meetingsFilteredByDate.clear();
+                    } else {
+                        meetingsFilteredByPlace.clear();
+                        meetingsFilteredByPlace.addAll(filterMeetingsWithPlace(meetingsFilteredByDate, filterPlace));
+                    }
                 }
             }
         }
@@ -141,7 +143,7 @@ public class MeetingsViewModel extends ViewModel {
         filterPlaceLiveData.setValue(filterPlace);
     }
 
-    public void setDatePlaceLiveData(@NonNull Integer filterDate) {
+    public void setFilterDateLiveData(@NonNull Integer filterDate) {
         filterDateLiveData.setValue(filterDate);
     }
 
@@ -185,45 +187,48 @@ public class MeetingsViewModel extends ViewModel {
         List<MeetingsViewState> meetingsFilter = new ArrayList<>();
         for (MeetingsViewState meeting : meetings) {
             int meetingTime = convertTimeStringToInt(convertTimeToStartTime(meeting.getTime()));
-            switch (filterDate) {
-                case R.id.date_under_8:
-                    if (meetingTime < 8) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_8_under_10:
-                    if (8 <= meetingTime && meetingTime < 10) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_10_under_12:
-                    if (10 <= meetingTime && meetingTime < 12) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_12_under_14:
-                    if (12 <= meetingTime && meetingTime < 14) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_14_under_16:
-                    if (14 <= meetingTime && meetingTime < 16) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_16_under_18:
-                    if (16 <= meetingTime && meetingTime < 18) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_18_under_20:
-                    if (18 <= meetingTime && meetingTime < 20) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_20_under_22:
-                    if (20 <= meetingTime && meetingTime < 22) {
-                        meetingsFilter.add(meeting);
-                    }
-                case R.id.date_over_22_under_00:
-                    if (22 <= meetingTime && meetingTime < 24) {
-                        meetingsFilter.add(meeting);
-                    }
-                default:
-                    break;
+
+            if (filterDate == R.id.date_under_8) {
+                Log.i("testDate", "1 : " + meeting.getPlace());
+                Log.i("testDate", "2 : " + meeting.getTime());
+                Log.i("testDate", "3 : " + meetingTime);
+                if (meetingTime < 8) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_8_under_10) {
+                if (8 <= meetingTime && meetingTime < 10) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_10_under_12) {
+                if (10 <= meetingTime && meetingTime < 12) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_12_under_14) {
+                if (12 <= meetingTime && meetingTime < 14) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_14_under_16) {
+                if (14 <= meetingTime && meetingTime < 16) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_16_under_18) {
+                if (16 <= meetingTime && meetingTime < 18) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_18_under_20) {
+                if (18 <= meetingTime && meetingTime < 20) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_20_under_22) {
+                if (20 <= meetingTime && meetingTime < 22) {
+                    meetingsFilter.add(meeting);
+                }
+            } else if (filterDate == R.id.date_over_22_under_00) {
+                if (22 <= meetingTime && meetingTime < 24) {
+                    meetingsFilter.add(meeting);
+                }
+            } else {
+                break;
             }
         }
 
@@ -236,7 +241,7 @@ public class MeetingsViewModel extends ViewModel {
         repository.deleteMeeting(id);
     }
 
-    private String convertTimeToStartTime(@NonNull String time) {
+    public String convertTimeToStartTime(@NonNull String time) {
         String[] parts = time.split(" to");
 
         return parts[0];

@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModel;
 import com.suonk.oc_project4.data.meetings.Meeting;
 import com.suonk.oc_project4.data.meetings.MeetingRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MeetingDetailsViewModel extends ViewModel {
 
     @NonNull
@@ -49,5 +52,15 @@ public class MeetingDetailsViewModel extends ViewModel {
         String[] parts = time.split("to ");
 
         return parts[1];
+    }
+
+    public int placeToArrayAdapterPosition(String place) {
+        String[] places = {"Peach", "Mario", "Luigi", "Bowser", "Toad", "Yoshi", "Daisy", "Donkey Kong"};
+        for (int i = 0; i < places.length; i++) {
+            if (place.equals(places[i])) {
+                return i;
+            }
+        }
+        return 0;
     }
 }

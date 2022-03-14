@@ -89,8 +89,20 @@ public class CreateMeetingViewModelTest {
 
     @Test
     public void convertStartAndEndTimeToOneString() {
+        assertEquals("4h30 to 6h45", viewModel.convertStartAndEndTimeToOneString("4h30", "6h45"));
+        assertEquals("9h30 to 12h45", viewModel.convertStartAndEndTimeToOneString("9h30", "12h45"));
         assertEquals("10h30 to 12h45", viewModel.convertStartAndEndTimeToOneString("10h30", "12h45"));
         assertNotEquals("10h30 to 12h45", viewModel.convertStartAndEndTimeToOneString("10h31", "12h45"));
+    }
+
+    @Test
+    public void checkIfFieldsNotEmpty(){
+        assertFalse(viewModel.checkIfFieldsNotEmpty("", "", "", ""));
+        assertFalse(viewModel.checkIfFieldsNotEmpty("test", "", "", ""));
+        assertFalse(viewModel.checkIfFieldsNotEmpty("test", "test", "", ""));
+        assertFalse(viewModel.checkIfFieldsNotEmpty("test", "test", "test", ""));
+        assertTrue(viewModel.checkIfFieldsNotEmpty("test", "test", "test", "test"));
+
     }
 
     @Test
@@ -101,6 +113,8 @@ public class CreateMeetingViewModelTest {
 
     @Test
     public void checkIfTimeToSuperiorThanTimeFrom() {
+        assertTrue(viewModel.checkIfEndTimeSuperiorThanStartTime("4h30", "6h45"));
+        assertTrue(viewModel.checkIfEndTimeSuperiorThanStartTime("9h30", "12h45"));
         assertTrue(viewModel.checkIfEndTimeSuperiorThanStartTime("10h30", "15h45"));
         assertFalse(viewModel.checkIfEndTimeSuperiorThanStartTime("19h45", "13h30"));
     }

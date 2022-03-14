@@ -146,25 +146,25 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
 
         if (itemId == R.id.date_under_8) {
             Log.i("filterDate", "1 : under 8");
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_8_under_10) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_10_under_12) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_12_under_14) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_14_under_16) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_16_under_18) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_18_under_20) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_20_under_22) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.date_over_22_under_00) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         } else if (itemId == R.id.no_filter_date) {
-            viewModel.setDatePlaceLiveData(itemId);
+            viewModel.setFilterDateLiveData(itemId);
         }
     }
 }

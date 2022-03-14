@@ -62,7 +62,6 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
         setupActionBar();
         setupSpinner();
         emailEditTextOnEditorAction();
-//        editTextTimePicker();
     }
 
     private void setupViewModel() {
@@ -74,7 +73,7 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
         viewModel.getMeetingSelected(id);
         viewModel.getMeetingDetailsLiveData().observe(getViewLifecycleOwner(), meetingDetailsViewState -> {
             binding.subjectEditText.getEditText().setText(meetingDetailsViewState.getSubject());
-//            binding.spinnerPlace.setPrompt();
+            binding.spinnerPlace.setSelection(viewModel.placeToArrayAdapterPosition(meetingDetailsViewState.getPlace()));
             binding.startTimeEditText.setText(meetingDetailsViewState.getStartTime());
             binding.endTimeEditText.setText(meetingDetailsViewState.getEndTime());
             initChip(meetingDetailsViewState);
@@ -115,47 +114,11 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
         }
     }
 
-    public void addChipFromEmailEditText() {
-        LayoutInflater inflater = LayoutInflater.from(requireContext());
-        Chip chip = (Chip) inflater.inflate(R.layout.layout_chip_entry, binding.chipGroup, false);
-        Editable text = binding.listEmailsEditText.getEditText().getText();
-        chip.setText(text.toString());
-        binding.chipGroup.addView(chip);
-        binding.listEmailsEditText.getEditText().getText().clear();
-
-        chip.setOnCloseIconClickListener(view1 -> {
-            binding.chipGroup.removeView(chip);
-        });
-    }
-
     public void emailEditTextOnEditorAction() {
         binding.listEmailsEditText.getEditText().setOnEditorActionListener((textView, actionId, keyEvent) -> {
             return true;
         });
     }
-
-    //endregion
-
-    //region ============================================= Date =============================================
-
-//    private void editTextTimePicker() {
-//        binding.timeEditTextFrom.setOnClickListener(view -> {
-//            TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (timePicker, hourOfDay, minutes) -> {
-//                binding.timeEditTextFrom.setText(hourOfDay + "h" + minutes);
-//
-//            }, 0, 0, true);
-//
-//            timePickerDialog.show();
-//        });
-//        binding.timeEditTextTo.setOnClickListener(view -> {
-//            TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (timePicker, hourOfDay, minutes) -> {
-//                binding.timeEditTextTo.setText(hourOfDay + "h" + minutes);
-//
-//            }, 0, 0, true);
-//
-//            timePickerDialog.show();
-//        });
-//    }
 
     //endregion
 
@@ -173,20 +136,8 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.create_meeting_toolbar_menu, menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.create_new_meeting) {
-//            onCreateMeetingClick();
-//            viewModel.checkIfTimeToSuperiorThanTimeFrom(
-//                    binding.timeEditTextFrom.getText().toString(),
-//                    binding.timeEditTextTo.getText().toString());
-            return true;
-        } else if (item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             popBackStack();
             return true;
         }

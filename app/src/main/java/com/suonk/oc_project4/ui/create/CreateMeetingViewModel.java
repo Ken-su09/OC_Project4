@@ -85,30 +85,6 @@ public class CreateMeetingViewModel extends ViewModel {
         return matcher.matches();
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public String convertChipGroupToString(@NonNull ChipGroup chipGroup) {
-        List<String> list = new ArrayList<>();
-
-        for (int i = 0; i < chipGroup.getChildCount(); i++) {
-            String chip = ((Chip) chipGroup.getChildAt(i)).getText().toString();
-            list.add(chip);
-        }
-
-        return list.stream().collect(Collectors.joining(", ", "", ""));
-    }
-
-    public List<String> convertChipGroupToList(@NonNull ChipGroup chipGroup) {
-        List<String> list = new ArrayList<>();
-
-        for (int i = 0; i < chipGroup.getChildCount(); i++) {
-            String chip = ((Chip) chipGroup.getChildAt(i)).getText().toString();
-            list.add(chip);
-        }
-
-        return list;
-    }
-
     public String convertTimeToStartTime(String time) {
         String[] parts = time.split(" to");
 
