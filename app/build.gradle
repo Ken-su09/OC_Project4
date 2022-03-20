@@ -78,6 +78,8 @@ dependencies {
 
     // CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
 }
 
 // open JaCoCo report after generation

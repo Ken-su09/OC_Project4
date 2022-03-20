@@ -87,7 +87,6 @@ public class MeetingsViewModel extends ViewModel {
                     meetingsFilteredByDate.addAll(getMeetingsFilteredByDate(meetingsViewStates, filterDate));
                 }
             }
-
         }
 
         // Peach
@@ -105,14 +104,18 @@ public class MeetingsViewModel extends ViewModel {
                     } else {
                         meetingsFilteredByPlace.clear();
                         meetingsFilteredByPlace.addAll(filterMeetingsWithPlace(meetingsFilteredByDate, filterPlace));
+                        meetingsFilteredByDate.clear();
                     }
                 }
+            } else {
+                meetingsFilteredByDate.clear();
             }
         }
 
         if (filterDate == null && filterPlace == null) {
             meetingsFiltered.addAll(meetingsViewStates);
         } else {
+            Log.i("testFilter", "3 : " + meetingsFilteredByDate.isEmpty());
             if (!meetingsFilteredByDate.isEmpty()) {
                 for (MeetingsViewState meeting : meetingsFilteredByDate) {
                     if (!meetingsFiltered.contains(meeting)) {
@@ -121,6 +124,7 @@ public class MeetingsViewModel extends ViewModel {
                 }
             }
 
+            Log.i("testFilter", "4 : " + meetingsFilteredByPlace.isEmpty());
             if (!meetingsFilteredByPlace.isEmpty()) {
                 for (MeetingsViewState meeting : meetingsFilteredByPlace) {
                     if (!meetingsFiltered.contains(meeting)) {
@@ -160,25 +164,30 @@ public class MeetingsViewModel extends ViewModel {
 
     @NonNull
     private List<MeetingsViewState> filterMeetingsWithPlace(List<MeetingsViewState> meetings, @NonNull Integer filterPlace) {
-        switch (filterPlace) {
-            case R.id.place_peach:
-                return getMeetingsFilteredByPlace(meetings, "Peach");
-            case R.id.place_mario:
-                return getMeetingsFilteredByPlace(meetings, "Mario");
-            case R.id.place_luigi:
-                return getMeetingsFilteredByPlace(meetings, "Luigi");
-            case R.id.place_bowser:
-                return getMeetingsFilteredByPlace(meetings, "Bowser");
-            case R.id.place_toad:
-                return getMeetingsFilteredByPlace(meetings, "Toad");
-            case R.id.place_yoshi:
-                return getMeetingsFilteredByPlace(meetings, "Yoshi");
-            case R.id.place_daisy:
-                return getMeetingsFilteredByPlace(meetings, "Daisy");
-            case R.id.place_donkey_kong:
-                return getMeetingsFilteredByPlace(meetings, "Donkey Kong");
-            default:
-                return getMeetingsFilteredByPlace(meetings, "");
+        if (filterPlace == R.id.place_peach) {
+            return getMeetingsFilteredByPlace(meetings, "Peach");
+        } else if (filterPlace == R.id.place_mario) {
+            return getMeetingsFilteredByPlace(meetings, "Mario");
+
+        } else if (filterPlace == R.id.place_luigi) {
+            return getMeetingsFilteredByPlace(meetings, "Luigi");
+
+        } else if (filterPlace == R.id.place_bowser) {
+            return getMeetingsFilteredByPlace(meetings, "Bowser");
+
+        } else if (filterPlace == R.id.place_toad) {
+            return getMeetingsFilteredByPlace(meetings, "Toad");
+
+        } else if (filterPlace == R.id.place_yoshi) {
+            return getMeetingsFilteredByPlace(meetings, "Yoshi");
+
+        } else if (filterPlace == R.id.place_daisy) {
+            return getMeetingsFilteredByPlace(meetings, "Daisy");
+
+        } else if (filterPlace == R.id.place_donkey_kong) {
+            return getMeetingsFilteredByPlace(meetings, "Donkey Kong");
+        } else {
+            return getMeetingsFilteredByPlace(meetings, "");
         }
     }
 
@@ -189,9 +198,6 @@ public class MeetingsViewModel extends ViewModel {
             int meetingTime = convertTimeStringToInt(convertTimeToStartTime(meeting.getTime()));
 
             if (filterDate == R.id.date_under_8) {
-                Log.i("testDate", "1 : " + meeting.getPlace());
-                Log.i("testDate", "2 : " + meeting.getTime());
-                Log.i("testDate", "3 : " + meetingTime);
                 if (meetingTime < 8) {
                     meetingsFilter.add(meeting);
                 }

@@ -4,6 +4,10 @@
 
     <string name="toolbar_filter">Filter</string>
     <string name="toolbar_validate">Validate</string>
+    <string name="subject">Subject</string>
+    <string name="emails">Emails</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 
     <string-array name="places_array">
         <item>Peach</item>

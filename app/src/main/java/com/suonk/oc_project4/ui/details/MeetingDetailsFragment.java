@@ -1,11 +1,7 @@
 package com.suonk.oc_project4.ui.details;
 
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.chip.Chip;
 import com.suonk.oc_project4.R;
-import com.suonk.oc_project4.data.meetings.Meeting;
 import com.suonk.oc_project4.databinding.FragmentMeetingDetailsBinding;
 import com.suonk.oc_project4.ui.ViewModelFactory;
 
@@ -31,8 +25,6 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
 
     private MeetingDetailsViewModel viewModel;
     private FragmentMeetingDetailsBinding binding;
-
-    private String spinnerText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,10 +62,9 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
     }
 
     private void getMeetingFromViewModel(long id) {
-        viewModel.getMeetingSelected(id);
-        viewModel.getMeetingDetailsLiveData().observe(getViewLifecycleOwner(), meetingDetailsViewState -> {
-            binding.subjectEditText.getEditText().setText(meetingDetailsViewState.getSubject());
-            binding.spinnerPlace.setSelection(viewModel.placeToArrayAdapterPosition(meetingDetailsViewState.getPlace()));
+        viewModel.getMeetingDetailsLiveData(id).observe(getViewLifecycleOwner(), meetingDetailsViewState -> {
+            binding.subjectInputEditText.setText(meetingDetailsViewState.getSubject());
+            binding.spinnerPlace.setSelection(meetingDetailsViewState.getPlace());
             binding.startTimeEditText.setText(meetingDetailsViewState.getStartTime());
             binding.endTimeEditText.setText(meetingDetailsViewState.getEndTime());
             initChip(meetingDetailsViewState);
@@ -92,7 +83,6 @@ public class MeetingDetailsFragment extends Fragment implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        spinnerText = adapterView.getItemAtPosition(i).toString();
     }
 
     @Override

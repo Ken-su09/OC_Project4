@@ -3,6 +3,7 @@ package com.suonk.oc_project4.data.meetings;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -153,6 +154,31 @@ public class MeetingRepositoryTest {
                         new Meeting(1, "Android Dev", "Luigi", "12h30 to 18h30", "blablabla@gmail.com"),
                         new Meeting(2, "Math", "Sonic Heroes", "10h30 to 12h3", "blablabla@gmail.com, 12@gmail.com")),
                 listOfMeetings
+        );
+    }
+
+    @Test
+    public void getMeetingByIdWithSuccess() {
+        meetingRepository.addNewMeeting("Android Dev", "Luigi", "12h30 to 18h30", "blablabla@gmail.com");
+        meetingRepository.addNewMeeting("Maths", "Sonic Heroes", "10h30 to 12h30", "blablabla@gmail.com, 123@gmail.com");
+
+        Meeting meeting1 = TestUtils.getValueForTesting(meetingRepository.getMeetingById(1));
+
+        assertEquals(
+                new Meeting(1, "Android Dev", "Luigi", "12h30 to 18h30", "blablabla@gmail.com"),
+                meeting1
+        );
+
+        Meeting meeting2 = TestUtils.getValueForTesting(meetingRepository.getMeetingById(2));
+
+        assertEquals(
+                new Meeting(2, "Maths", "Sonic Heroes", "10h30 to 12h30", "blablabla@gmail.com, 123@gmail.com"),
+                meeting2
+        );
+
+        assertNotEquals(
+                new Meeting(2, "Maths", "Sonic Heroes", "10h30 to 12h30", "blablabla@gmail.com, 123@gmail.com"),
+                meeting1
         );
     }
 }

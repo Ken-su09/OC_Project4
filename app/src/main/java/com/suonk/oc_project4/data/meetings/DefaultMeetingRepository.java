@@ -1,6 +1,7 @@
 package com.suonk.oc_project4.data.meetings;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.suonk.oc_project4.data.meetings.Meeting;
@@ -14,7 +15,7 @@ public interface DefaultMeetingRepository {
      *
      * @return {@link List}
      */
-    MutableLiveData<List<Meeting>> getAllMeetings();
+    LiveData<List<Meeting>> getAllMeetings();
 
     /**
      * Add a new meeting

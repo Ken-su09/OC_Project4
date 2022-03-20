@@ -6,6 +6,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.suonk.oc_project4.data.meetings.Meeting;
 import com.suonk.oc_project4.data.meetings.MeetingRepository;
+import com.suonk.oc_project4.ui.details.MeetingDetailsViewState;
+import com.suonk.oc_project4.utils.TestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,11 +37,7 @@ public class CreateMeetingViewModelTest {
 
     @Test
     public void initialCase() {
-        viewModel.getCreateMeetingViewState().observeForever(createMeetingViewState -> {
-
-        });
-
-        CreateMeetingViewState meetingViewState = viewModel.getCreateMeetingViewState().getValue();
+        CreateMeetingViewState meetingViewState = TestUtils.getValueForTesting(viewModel.getCreateMeetingViewState());
 
         assertNotNull(meetingViewState);
         assertTrue(meetingViewState.getSubject().isEmpty());
@@ -51,14 +49,11 @@ public class CreateMeetingViewModelTest {
 
     @Test
     public void nominalCase() {
-        viewModel.getCreateMeetingViewState().observeForever(createMeetingViewState -> {
+        viewModel.createMeeting("Maths", "Peach", "10h30 to 12h30", "blablabla@gmail.com, 123@gmail.com");
+        CreateMeetingViewState meeting = new CreateMeetingViewState("Maths", "10h30",
+                "12h30", "Peach", "blablabla@gmail.com, 123@gmail.com");
 
-        });
-
-        String listOfMails = "blablabla@gmail.com, 123@gmail.com";
-        viewModel.createMeeting("Maths", "Peach", "10h30 to 12h30", listOfMails);
-
-        CreateMeetingViewState meetingViewState = viewModel.getCreateMeetingViewState().getValue();
+        CreateMeetingViewState meetingViewState = TestUtils.getValueForTesting(viewModel.getCreateMeetingViewState());
 
         assertNotNull(meetingViewState);
         assertFalse(meetingViewState.getSubject().isEmpty());
@@ -66,24 +61,21 @@ public class CreateMeetingViewModelTest {
         assertFalse(meetingViewState.getStartTime().isEmpty());
         assertFalse(meetingViewState.getEndTime().isEmpty());
         assertFalse(meetingViewState.getListOfMails().isEmpty());
+
+        assertEquals(meeting, meetingViewState);
     }
 
     @Test
     public void tryToCreateMeetingWithNullPlace() {
-        viewModel.getCreateMeetingViewState().observeForever(createMeetingViewState -> {
+        viewModel.createMeeting("Maths", null, "10h30 to 12h30", "blablabla@gmail.com, 123@gmail.com");
 
-        });
-
-        String listOfMails = "blablabla@gmail.com, 123@gmail.com";
-        viewModel.createMeeting("Maths", null, "10h30 to 12h30", listOfMails);
-
-        CreateMeetingViewState meetingViewState = viewModel.getCreateMeetingViewState().getValue();
+        CreateMeetingViewState meetingViewState = TestUtils.getValueForTesting(viewModel.getCreateMeetingViewState());
 
         assertNotNull(meetingViewState);
         assertFalse(meetingViewState.getSubject().isEmpty());
         assertFalse(meetingViewState.getStartTime().isEmpty());
         assertFalse(meetingViewState.getEndTime().isEmpty());
-        assertEquals(null, meetingViewState.getPlace());
+        assertNull(meetingViewState.getPlace());
         assertFalse(meetingViewState.getListOfMails().isEmpty());
     }
 
@@ -96,19 +88,29 @@ public class CreateMeetingViewModelTest {
     }
 
     @Test
-    public void checkIfFieldsNotEmpty(){
+    public void checkIfFieldsNotEmpty() {
         assertFalse(viewModel.checkIfFieldsNotEmpty("", "", "", ""));
         assertFalse(viewModel.checkIfFieldsNotEmpty("test", "", "", ""));
         assertFalse(viewModel.checkIfFieldsNotEmpty("test", "test", "", ""));
         assertFalse(viewModel.checkIfFieldsNotEmpty("test", "test", "test", ""));
         assertTrue(viewModel.checkIfFieldsNotEmpty("test", "test", "test", "test"));
+        assertFalse(viewModel.checkIfFieldsNotEmpty("", "test", "test", "test"));
+        assertFalse(viewModel.checkIfFieldsNotEmpty("", "", "test", "test"));
+        assertFalse(viewModel.checkIfFieldsNotEmpty("", "", "", "test"));
+        assertFalse(viewModel.checkIfFieldsNotEmpty("test", "", "", "test"));
 
     }
 
     @Test
     public void checkIfEmailValid() {
         assertTrue(viewModel.checkIfEmailValid("test@test.com"));
+        assertTrue(viewModel.checkIfEmailValid("test@.com"));
+        assertTrue(viewModel.checkIfEmailValid("testa*'7é*é23@test.com"));
+        assertTrue(viewModel.checkIfEmailValid("test@........"));
         assertFalse(viewModel.checkIfEmailValid("test"));
+        assertFalse(viewModel.checkIfEmailValid("test@"));
+        assertFalse(viewModel.checkIfEmailValid("@.com"));
+        assertFalse(viewModel.checkIfEmailValid("test.com"));
     }
 
     @Test

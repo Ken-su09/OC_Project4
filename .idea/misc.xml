@@ -8,6 +8,11 @@
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/drawable/ic_check.xml" value="0.2125" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/drawable/ic_delete.xml" value="0.18" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/drawable/ic_filter.xml" value="0.2125" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout-land/activity_main.xml" value="0.1432355338223309" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout-land/fragment_create_meeting.xml" value="0.1796116504854369" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout-land/fragment_meeting_details.xml" value="0.32038834951456313" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout-land/fragment_meetings_list.xml" value="0.1432355338223309" />
+        <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.22506830601092895" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/fragment_create_meeting.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/CompteDev/AndroidStudioProjects/OC_Project4/OC_Project4/app/src/main/res/layout/fragment_meeting_details.xml" value="0.1875" />

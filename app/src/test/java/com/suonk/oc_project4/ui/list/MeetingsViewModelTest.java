@@ -52,7 +52,6 @@ public class MeetingsViewModelTest {
         meetingsMutableLiveData.setValue(new ArrayList<>());
         List<MeetingsViewState> listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
 
-        assertTrue(listOfMeetings.isEmpty());
         assertEquals(0, listOfMeetings.size());
     }
 
@@ -60,30 +59,17 @@ public class MeetingsViewModelTest {
     public void nominalCase() {
         List<MeetingsViewState> listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
 
-        assertFalse(listOfMeetings.isEmpty());
         assertEquals(10, listOfMeetings.size());
         assertEquals(getDefaultViewStates(), listOfMeetings);
     }
 
     @Test
-    public void get_meetings_with_null_list() {
-        meetingsMutableLiveData.setValue(null);
-        viewModel.getAllMeetings().observeForever(meetings -> {
-            assertFalse(meetings.isEmpty());
-            assertNotNull(meetings);
-        });
-    }
-
-    @Test
     public void get_meetings_filter_by_place_peach_no_filter_date_with_success() {
-        List<MeetingsViewState> listOfMeetings;
-
         viewModel.setFilterDateLiveData(R.id.no_filter_date);
         viewModel.setFilterPlaceLiveData(R.id.place_peach);
 
-        listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
+        List<MeetingsViewState> listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
 
-        assertFalse(listOfMeetings.isEmpty());
         assertEquals(3, listOfMeetings.size());
         assertEquals("Peach", listOfMeetings.get(0).getPlace());
         assertEquals("Peach", listOfMeetings.get(1).getPlace());
@@ -92,28 +78,22 @@ public class MeetingsViewModelTest {
 
     @Test
     public void get_meetings_filter_by_date_under_8_no_filter_place_with_success() {
-        List<MeetingsViewState> listOfMeetings;
-
         viewModel.setFilterDateLiveData(R.id.date_under_8);
         viewModel.setFilterPlaceLiveData(R.id.no_filter_place);
 
-        listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
+        List<MeetingsViewState> listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
 
-        assertFalse(listOfMeetings.isEmpty());
         assertEquals(1, listOfMeetings.size());
         assertEquals("6h45 to 7h30", listOfMeetings.get(0).getTime());
     }
 
     @Test
     public void get_meetings_filter_by_date_between_10_and_12_filter_place_by_mario_then_no_filter_date_with_success() {
-        List<MeetingsViewState> listOfMeetings;
-
         viewModel.setFilterDateLiveData(R.id.date_over_10_under_12);
         viewModel.setFilterPlaceLiveData(R.id.place_mario);
 
-        listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
+        List<MeetingsViewState> listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
 
-        assertFalse(listOfMeetings.isEmpty());
         assertEquals(1, listOfMeetings.size());
         assertEquals("10h30 to 12h30", listOfMeetings.get(0).getTime());
         assertEquals("Mario", listOfMeetings.get(0).getPlace());
@@ -122,7 +102,6 @@ public class MeetingsViewModelTest {
 
         listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
 
-        assertFalse(listOfMeetings.isEmpty());
         assertEquals(1, listOfMeetings.size());
         assertEquals("10h30 to 12h30", listOfMeetings.get(0).getTime());
         assertEquals("Mario", listOfMeetings.get(0).getPlace());
@@ -357,7 +336,7 @@ public class MeetingsViewModelTest {
     }
 
     @Test
-    public void get_meetings_filter_by_date_between_12_and_14_filter_place_donkey_kong_should_be_empty_and_then_no_filter_date_then_filter_date_16_to_18() {
+    public void filter_by_date_between_12_and_14_filter_place_donkey_kong_should_be_empty_then_no_filter_date_should_be_one_then_filter_date_16_to_18() {
         List<MeetingsViewState> listOfMeetings;
 
         viewModel.setFilterPlaceLiveData(R.id.place_donkey_kong);
@@ -380,7 +359,12 @@ public class MeetingsViewModelTest {
 
         listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
 
-        assertFalse(listOfMeetings.isEmpty());
+        assertEquals(1, listOfMeetings.size());
+
+        viewModel.setFilterPlaceLiveData(R.id.no_filter_place);
+
+        listOfMeetings = TestUtils.getValueForTesting(viewModel.getAllMeetings());
+
         assertEquals(2, listOfMeetings.size());
     }
 

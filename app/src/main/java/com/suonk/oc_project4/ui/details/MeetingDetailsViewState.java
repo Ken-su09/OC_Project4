@@ -28,7 +28,7 @@ public class MeetingDetailsViewState {
      * Place
      */
     @NonNull
-    private String place;
+    private int place;
 
     /**
      * List of attendees
@@ -47,7 +47,7 @@ public class MeetingDetailsViewState {
             @NonNull String subject,
             @NonNull String startTime,
             @NonNull String endTime,
-            @NonNull String place,
+            @NonNull int place,
             @NonNull String listOfMails) {
         this.subject = subject;
         this.startTime = startTime;
@@ -75,8 +75,7 @@ public class MeetingDetailsViewState {
         return endTime;
     }
 
-    @NonNull
-    public String getPlace() {
+    public int getPlace() {
         return place;
     }
 

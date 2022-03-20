@@ -1,7 +1,10 @@
 package com.suonk.oc_project4.data.meetings;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.suonk.oc_project4.ui.details.MeetingDetailsViewState;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,8 +43,24 @@ public class MeetingRepository implements DefaultMeetingRepository {
     }
 
     @NonNull
-    public MutableLiveData<List<Meeting>> getAllMeetings() {
+    public LiveData<List<Meeting>> getAllMeetings() {
         return meetingsLiveData;
+    }
+
+    @NonNull
+    public LiveData<Meeting> getMeetingById(long id) {
+        MutableLiveData<Meeting> result = new MutableLiveData<>();
+        List<Meeting> meetings = meetingsLiveData.getValue();
+
+        if (meetings != null) {
+            for (Meeting meeting : meetings) {
+                if (meeting.getId() == id) {
+                    result.setValue(meeting);
+                }
+            }
+        }
+
+        return result;
     }
 
     public void setId() {
