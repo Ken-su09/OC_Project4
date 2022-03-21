@@ -1,6 +1,5 @@
 package com.suonk.oc_project4.ui.list;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,8 +8,11 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.suonk.oc_project4.R;
 import com.suonk.oc_project4.databinding.ItemMeetingBinding;
 import com.suonk.oc_project4.ui.OnMeetingEventListener;
+
+import java.util.Random;
 
 public class MeetingsListAdapter extends ListAdapter<MeetingsViewState, MeetingsListAdapter.MeetingViewHolder> {
 
@@ -54,6 +56,33 @@ public class MeetingsListAdapter extends ListAdapter<MeetingsViewState, Meetings
             binding.deleteButton.setOnClickListener(view -> {
                 callBack.onMeetingDelete(meeting.getId());
             });
+
+            switch (meeting.getPlace()) {
+                case "Peach":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_yellow);
+                    break;
+                case "Mario":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_red);
+                    break;
+                case "Luigi":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_green);
+                    break;
+                case "Bowser":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_belge);
+                    break;
+                case "Toad":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_yellow);
+                    break;
+                case "Yoshi":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_green);
+                    break;
+                case "Daisy":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_yellow);
+                    break;
+                case "Donkey Kong":
+                    binding.meetingColor.setImageResource(R.drawable.ic_circle_blue);
+                    break;
+            }
         }
     }
 

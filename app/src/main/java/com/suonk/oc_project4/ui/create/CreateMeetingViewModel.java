@@ -1,27 +1,14 @@
 package com.suonk.oc_project4.ui.create;
 
-import android.os.Build;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.test.espresso.ViewAction;
 
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.suonk.oc_project4.data.meetings.Meeting;
 import com.suonk.oc_project4.data.meetings.MeetingRepository;
-import com.suonk.oc_project4.ui.events.SingleLiveEvent;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class CreateMeetingViewModel extends ViewModel {
 
