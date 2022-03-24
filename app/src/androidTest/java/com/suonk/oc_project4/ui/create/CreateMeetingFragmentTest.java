@@ -28,7 +28,7 @@ public class CreateMeetingFragmentTest {
         ActivityScenario<MainActivity> activityScenario = ActivityScenario.launch(MainActivity.class);
         activityScenario.onActivity(activity -> activityRef = activity);
 
-        onView(allOf(withId(R.id.add_neighbour), isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.add_meeting), isDisplayed())).perform(click());
     }
 
     @After

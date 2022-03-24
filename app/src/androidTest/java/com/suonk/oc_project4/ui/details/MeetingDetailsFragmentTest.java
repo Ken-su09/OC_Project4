@@ -30,7 +30,7 @@ public class MeetingDetailsFragmentTest {
     public void setUp() {
         ActivityScenario<MainActivity> activityScenario = ActivityScenario.launch(MainActivity.class);
         activityScenario.onActivity(activity -> activityRef = activity);
-        onView(allOf(withId(R.id.add_neighbour), isDisplayed())).perform(click());
+        onView(allOf(withId(R.id.add_meeting), isDisplayed())).perform(click());
         createMeeting("Subject1", 1, "10h30", "12h30", "test@hotmail.com");
         onView(withId(R.id.create_new_meeting)).perform(click());
     }
