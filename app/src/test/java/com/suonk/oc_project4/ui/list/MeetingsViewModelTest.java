@@ -418,16 +418,16 @@ public class MeetingsViewModelTest {
     private List<MeetingsViewState> getDefaultViewStates() {
         List<MeetingsViewState> meetings = new ArrayList<>();
 
-        meetings.add(new MeetingsViewState(1, "Subject1", "18h30 to 22h30", "Peach", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(2, "Maths", "10h30 to 12h30", "Mario", "blablabla@gmail.com, 123@gmail.com, 456@gmail.com"));
-        meetings.add(new MeetingsViewState(3, "Subject3", "8h30 to 10h00", "Luigi", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(4, "Subject4", "6h45 to 7h30", "Toad", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(5, "Subject5", "12h30 to 14h05", "Yoshi", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(6, "Subject6", "16h35 to 18h30", "Daisy", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(7, "Subject7", "16h35 to 18h30", "Donkey Kong", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(8, "Subject8", "20h12 to 21h30", "Peach", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(9, "Subject9", "22h12 to 23h30", "Peach", "test@gmail.com"));
-        meetings.add(new MeetingsViewState(10, "Subject10", "14h23 to 15h30", "Toad", "test@gmail.com"));
+        meetings.add(new MeetingsViewState(1, "Subject1", "18h30 to 22h30", "Peach", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Peach"))));
+        meetings.add(new MeetingsViewState(2, "Maths", "10h30 to 12h30", "Mario", "blablabla@gmail.com, 123@gmail.com, 456@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Mario"))));
+        meetings.add(new MeetingsViewState(3, "Subject3", "8h30 to 10h00", "Luigi", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Luigi"))));
+        meetings.add(new MeetingsViewState(4, "Subject4", "6h45 to 7h30", "Toad", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Toad"))));
+        meetings.add(new MeetingsViewState(5, "Subject5", "12h30 to 14h05", "Yoshi", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Yoshi"))));
+        meetings.add(new MeetingsViewState(6, "Subject6", "16h35 to 18h30", "Daisy", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Daisy"))));
+        meetings.add(new MeetingsViewState(7, "Subject7", "16h35 to 18h30", "Donkey Kong", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Donkey Kong"))));
+        meetings.add(new MeetingsViewState(8, "Subject8", "20h12 to 21h30", "Peach", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Peach"))));
+        meetings.add(new MeetingsViewState(9, "Subject9", "22h12 to 23h30", "Peach", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Peach"))));
+        meetings.add(new MeetingsViewState(10, "Subject10", "14h23 to 15h30", "Toad", "test@gmail.com", viewModel.getColorPlace(meetingRepository.getPosition("Toad"))));
 
         return meetings;
     }

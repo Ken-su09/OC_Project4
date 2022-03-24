@@ -34,6 +34,10 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ViewModelFactory factory = ViewModelFactory.getInstance();
+        viewModel = new ViewModelProvider(this, factory).get(MeetingsViewModel.class);
+
         setHasOptionsMenu(true);
     }
 
@@ -54,11 +58,6 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewModelFactory factory = ViewModelFactory.getInstance();
-        viewModel = new ViewModelProvider(this, factory).get(MeetingsViewModel.class);
-
-//        sharedPreferences = requireActivity().getSharedPreferences("MenuItemChecked", MODE_PRIVATE);
-
         setupActionBar();
         onFabClickListener();
         getMeetingsListFromViewModel();
@@ -77,7 +76,6 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
         listAdapter = new MeetingsListAdapter(this);
 
         viewModel.getAllMeetings().observe(getViewLifecycleOwner(), meetings -> {
-            Log.i("filterLiveData", "7 : " + meetings);
             listAdapter.submitList(meetings);
         });
         binding.meetingsRv.setAdapter(listAdapter);
@@ -86,7 +84,7 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     }
 
     private void onFabClickListener() {
-        binding.addNeighbour.setOnClickListener(view -> {
+        binding.addMeeting.setOnClickListener(view -> {
             navigationToAnotherFragment(view, MeetingsListFragmentDirections.actionMeetingsListFragmentToCreateMeetingFragment());
         });
     }
@@ -109,9 +107,6 @@ public class MeetingsListFragment extends Fragment implements OnMeetingEventList
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.list_meetings_toolbar_menu, menu);
-
-//        Log.i("MenuItem", "1 : " + sharedPreferences.getInt("MenuItemChecked", 0));
-//        menu.getItem(sharedPreferences.getInt("MenuItemChecked", 0)).setChecked(true);
     }
 
     @Override

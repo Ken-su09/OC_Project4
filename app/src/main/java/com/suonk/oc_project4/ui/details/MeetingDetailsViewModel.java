@@ -23,7 +23,7 @@ public class MeetingDetailsViewModel extends ViewModel {
                         meeting.getSubject(),
                         convertTimeToStartTime(meeting.getTime()),
                         convertTimeToEndTime(meeting.getTime()),
-                        placeToArrayAdapterPosition(meeting.getPlace()),
+                        repository.getPosition(meeting.getPlace()),
                         meeting.getListOfMails()));
     }
 
@@ -37,15 +37,5 @@ public class MeetingDetailsViewModel extends ViewModel {
         String[] parts = time.split("to ");
 
         return parts[1];
-    }
-
-    public int placeToArrayAdapterPosition(String place) {
-        String[] places = {"Peach", "Mario", "Luigi", "Bowser", "Toad", "Yoshi", "Daisy", "Donkey Kong"};
-        for (int i = 0; i < places.length; i++) {
-            if (place.equals(places[i])) {
-                return i;
-            }
-        }
-        return 0;
     }
 }

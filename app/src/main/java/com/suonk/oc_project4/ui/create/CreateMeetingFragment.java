@@ -40,7 +40,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
     private CreateMeetingViewModel viewModel;
     private FragmentCreateMeetingBinding binding;
 
-    private String spinnerText;
+    private int position;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,9 +72,9 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
         editTextTimePicker();
     }
 
-    private void onCreateMeetingClick() {
-        viewModel.createMeeting(binding.subjectEditText.getEditText().getText().toString(),
-                spinnerText,
+    private boolean onCreateMeetingClick() {
+        return viewModel.createMeeting(binding.subjectEditText.getEditText().getText().toString(),
+                position,
                 viewModel.convertStartAndEndTimeToOneString(binding.startTimeEditText.getText().toString(), binding.endTimeEditText.getText().toString()),
                 convertChipGroupToString(binding.chipGroup));
     }
@@ -82,10 +82,6 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
     private void setupViewModel() {
         ViewModelFactory factory = ViewModelFactory.getInstance();
         viewModel = new ViewModelProvider(this, factory).get(CreateMeetingViewModel.class);
-
-        viewModel.getCreateMeetingViewState().observe(getViewLifecycleOwner(), createMeetingViewState -> {
-
-        });
     }
 
     //region ============================================ Spinner ===========================================
@@ -100,7 +96,7 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        spinnerText = adapterView.getItemAtPosition(i).toString();
+        position = i;
     }
 
     @Override
@@ -151,7 +147,11 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
     private void editTextTimePicker() {
         binding.startTimeEditText.setOnClickListener(view -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (timePicker, hourOfDay, minutes) -> {
-                binding.startTimeEditText.setText(hourOfDay + "h" + minutes);
+                if (minutes < 10) {
+                    binding.startTimeEditText.setText(hourOfDay + "h0" + minutes);
+                } else {
+                    binding.startTimeEditText.setText(hourOfDay + "h" + minutes);
+                }
 
             }, 0, 0, true);
 
@@ -159,7 +159,11 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
         });
         binding.endTimeEditText.setOnClickListener(view -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (timePicker, hourOfDay, minutes) -> {
-                binding.endTimeEditText.setText(hourOfDay + "h" + minutes);
+                if (minutes < 10) {
+                    binding.endTimeEditText.setText(hourOfDay + "h0" + minutes);
+                } else {
+                    binding.endTimeEditText.setText(hourOfDay + "h" + minutes);
+                }
 
             }, 0, 0, true);
 
@@ -195,13 +199,16 @@ public class CreateMeetingFragment extends Fragment implements AdapterView.OnIte
             String startTime = binding.startTimeEditText.getText().toString();
             String endTime = binding.endTimeEditText.getText().toString();
 
-            if (viewModel.checkIfFieldsNotEmpty(subject, spinnerText, startTime, endTime) &&
+            if (viewModel.checkIfFieldsNotEmpty(subject, startTime, endTime) &&
                     !convertChipGroupToString(binding.chipGroup).isEmpty()) {
                 if (viewModel.checkIfEndTimeSuperiorThanStartTime(startTime, endTime)) {
-                    onCreateMeetingClick();
-                    popBackStack();
+                    if (onCreateMeetingClick()) {
+                        popBackStack();
+                    } else {
+                        Toast.makeText(getContext(), "This place is already reserved for this time", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getContext(), "Time Started can't be higher than Time Ended", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Time Started can't be higher or equals than Time Ended", Toast.LENGTH_LONG).show();
                 }
             } else {
                 Toast.makeText(getContext(), "No field should be empty", Toast.LENGTH_LONG).show();

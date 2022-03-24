@@ -20,8 +20,8 @@ public interface DefaultMeetingRepository {
     /**
      * Add a new meeting
      */
-    void addNewMeeting(@NonNull String subject,
-                       @NonNull String place,
+    boolean addNewMeeting(@NonNull String subject,
+                       int position,
                        @NonNull String time,
                        @NonNull String listOfMails);
 

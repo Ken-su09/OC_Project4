@@ -1,7 +1,5 @@
 package com.suonk.oc_project4.ui.list;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -75,12 +73,12 @@ public class MeetingsViewModel extends ViewModel {
                             meeting.getSubject(),
                             meeting.getTime(),
                             meeting.getPlace(),
-                            meeting.getListOfMails()
+                            meeting.getListOfMails(),
+                            getColorPlace(repository.getPosition(meeting.getPlace()))
                     )
             );
         }
 
-        // x under 8
         if (filterDate != null) {
             if (!getMeetingsFilteredByDate(meetingsViewStates, filterDate).isEmpty()) {
                 if (!meetingsFilteredByDate.containsAll(getMeetingsFilteredByDate(meetingsViewStates, filterDate))) {
@@ -89,14 +87,12 @@ public class MeetingsViewModel extends ViewModel {
             }
         }
 
-        // Peach
         if (filterPlace != null) {
             if (!filterMeetingsWithPlace(meetingsViewStates, filterPlace).isEmpty()) {
                 if (!meetingsFilteredByPlace.containsAll(filterMeetingsWithPlace(meetingsViewStates, filterPlace))) {
                     meetingsFilteredByPlace.addAll(filterMeetingsWithPlace(meetingsViewStates, filterPlace));
                 }
 
-                // 3 x Peach
                 if (filterDate != null) {
                     if (filterMeetingsWithPlace(meetingsFilteredByDate, filterPlace).isEmpty()) {
                         meetingsFilteredByPlace.clear();
@@ -115,7 +111,6 @@ public class MeetingsViewModel extends ViewModel {
         if (filterDate == null && filterPlace == null) {
             meetingsFiltered.addAll(meetingsViewStates);
         } else {
-            Log.i("testFilter", "3 : " + meetingsFilteredByDate.isEmpty());
             if (!meetingsFilteredByDate.isEmpty()) {
                 for (MeetingsViewState meeting : meetingsFilteredByDate) {
                     if (!meetingsFiltered.contains(meeting)) {
@@ -124,7 +119,6 @@ public class MeetingsViewModel extends ViewModel {
                 }
             }
 
-            Log.i("testFilter", "4 : " + meetingsFilteredByPlace.isEmpty());
             if (!meetingsFilteredByPlace.isEmpty()) {
                 for (MeetingsViewState meeting : meetingsFilteredByPlace) {
                     if (!meetingsFiltered.contains(meeting)) {
@@ -139,6 +133,21 @@ public class MeetingsViewModel extends ViewModel {
 
     public LiveData<List<MeetingsViewState>> getAllMeetings() {
         return viewStateLiveData;
+    }
+
+    public int getColorPlace(int position) {
+        int[] colors = {
+                R.drawable.ic_circle_yellow,
+                R.drawable.ic_circle_red,
+                R.drawable.ic_circle_green,
+                R.drawable.ic_circle_belge,
+                R.drawable.ic_circle_yellow,
+                R.drawable.ic_circle_red,
+                R.drawable.ic_circle_blue,
+                R.drawable.ic_circle_red
+        };
+
+        return colors[position];
     }
 
     //region =========================================== FILTERS ============================================
