@@ -32,6 +32,11 @@ public class MeetingsViewState {
     private final String place;
 
     /**
+     * Color
+     */
+    private final int color;
+
+    /**
      * List of attendees
      */
     @NonNull
@@ -45,12 +50,14 @@ public class MeetingsViewState {
             @NonNull String subject,
             @NonNull String time,
             @NonNull String place,
-            @NonNull String listOfMails) {
+            @NonNull String listOfMails,
+            int color) {
         this.id = id;
         this.subject = subject;
         this.time = time;
         this.place = place;
         this.listOfMails = listOfMails;
+        this.color = color;
     }
 
     public long getId() {
@@ -75,6 +82,10 @@ public class MeetingsViewState {
     @NonNull
     public String getListOfMails() {
         return listOfMails;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     @Override

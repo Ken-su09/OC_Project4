@@ -53,28 +53,6 @@ public class MeetingDetailsViewModelTest {
     }
 
     @Test
-    public void placeToArrayAdapterPosition() {
-        assertEquals(0, viewModel.placeToArrayAdapterPosition(""));
-        assertEquals(0, viewModel.placeToArrayAdapterPosition("Peach"));
-        assertEquals(1, viewModel.placeToArrayAdapterPosition("Mario"));
-        assertEquals(2, viewModel.placeToArrayAdapterPosition("Luigi"));
-        assertEquals(3, viewModel.placeToArrayAdapterPosition("Bowser"));
-        assertEquals(4, viewModel.placeToArrayAdapterPosition("Toad"));
-        assertEquals(5, viewModel.placeToArrayAdapterPosition("Yoshi"));
-        assertEquals(6, viewModel.placeToArrayAdapterPosition("Daisy"));
-        assertEquals(7, viewModel.placeToArrayAdapterPosition("Donkey Kong"));
-
-        assertNotEquals(3, viewModel.placeToArrayAdapterPosition("Peach"));
-        assertNotEquals(4, viewModel.placeToArrayAdapterPosition("Mario"));
-        assertNotEquals(5, viewModel.placeToArrayAdapterPosition("Luigi"));
-        assertNotEquals(6, viewModel.placeToArrayAdapterPosition("Bowser"));
-        assertNotEquals(7, viewModel.placeToArrayAdapterPosition("Toad"));
-        assertNotEquals(0, viewModel.placeToArrayAdapterPosition("Yoshi"));
-        assertNotEquals(1, viewModel.placeToArrayAdapterPosition("Daisy"));
-        assertNotEquals(2, viewModel.placeToArrayAdapterPosition("Donkey Kong"));
-    }
-
-    @Test
     public void convertTimeToStartTime() {
         assertEquals("4h30", viewModel.convertTimeToStartTime("4h30 to 6h45"));
         assertEquals("9h00", viewModel.convertTimeToStartTime("9h00 to 12h45"));
